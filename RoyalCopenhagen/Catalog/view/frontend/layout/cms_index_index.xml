@@ -4,7 +4,7 @@
         <referenceContainer name="main">
              <block class="RoyalCopenhagen\Catalog\Block\ProductListing"
                    name="product.listing" as="productListing"
-                   template="productlists.phtml"/>
+                   template="RoyalCopenhagen_Catalog::default/productlists.phtml"/>
         </referenceContainer>
     </body>
 </page>
