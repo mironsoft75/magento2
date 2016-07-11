@@ -8,12 +8,15 @@ use Psr\Log\LoggerInterface as Logger;
 class GetQuote implements ObserverInterface {
 
   protected $logger;
+  public $_namecustomSession;
 
   public function __construct(
+    \Magento\Catalog\Model\Session $_namecustomSession,
     \Psr\Log\LoggerInterface $logger
   )
   {
     $this->logger = $logger;
+    $this->_namecustomSession = $_namecustomSession;
   }
 
   public function execute(\Magento\Framework\Event\Observer $observer) {
@@ -21,6 +24,6 @@ class GetQuote implements ObserverInterface {
     /** @var Product $product */
     $product = $event->getData('product');
 
-    $this->logger->debug('something');
+    $this->logger->info(get_class($product));
   }
 }
