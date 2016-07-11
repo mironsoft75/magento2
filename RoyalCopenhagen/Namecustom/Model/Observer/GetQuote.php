@@ -8,7 +8,9 @@ class GetQuote implements ObserverInterface {
 
   public function execute(Observer $observer) {
     $event = $observer->getEvent();
-    $quote = $event->getQuote();
+    /** @var Product $product */
+    $product = $event->getData('product');
+
     $this->_objectManager->get('Psr\Log\LoggerInterface')->debug('something');
   }
 }
