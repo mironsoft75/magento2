@@ -6,7 +6,7 @@ use Magento\Framework\Event\ObserverInterface;
 
 class GetQuote implements ObserverInterface {
 
-  public function execute(Observer $observer) {
+  public function execute(\Magento\Framework\Event\Observer $observer) {
     $event = $observer->getEvent();
     /** @var Product $product */
     $product = $event->getData('product');
