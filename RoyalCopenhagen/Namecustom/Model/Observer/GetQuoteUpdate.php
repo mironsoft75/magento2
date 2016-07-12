@@ -6,7 +6,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Psr\Log\LoggerInterface as Logger;
 
-class GetQuote implements ObserverInterface {
+class GetQuoteUpdate implements ObserverInterface {
 
   protected $logger;
   protected $_checkoutSession;
@@ -24,13 +24,13 @@ class GetQuote implements ObserverInterface {
   public function execute(\Magento\Framework\Event\Observer $observer) {
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 
-     /** Reset all the sessions first */
+    /** Reset all the sessions first */
     $this->_checkoutSession->setData('_show_tea_checkout_form', false);
     $this->_checkoutSession->setData('_show_yearplate_checkout_form', false);
 
-    $cartData = $this->_checkoutSession->getQuote()->getAllVisibleItems();
+    $quote =  $this->_checkoutSession->getQuote();
 
-    foreach ($cartData as $item){
+    foreach ($quote->getAllVisibleItems() as $item){
       $product = $objectManager->create('Magento\Catalog\Model\Product')->load($item->getProductId());
       $is_name_customisable = $product->getRcNameCustomization();
 
@@ -39,17 +39,17 @@ class GetQuote implements ObserverInterface {
 
         if( $customisable_type == 92 ) { //tea_type
            $this->_checkoutSession->setData('_show_tea_checkout_form', true);
-           #$this->logger->info('checkout_cart_add_product_complete :: _show_tea_checkout_form: TRUE');
+
 
          }
          if( $customisable_type == 91 ) { // year_plate
            $this->_checkoutSession->setData('_show_yearplate_checkout_form', true);
-           #$this->logger->info('checkout_cart_add_product_complete :: _show_yearplate_checkout_form: TRUE');
+
         }
 
       }
-    }
 
+    }
 
   }
 }
