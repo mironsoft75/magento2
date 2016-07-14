@@ -24,7 +24,12 @@ class GetQuote implements ObserverInterface {
   public function execute(\Magento\Framework\Event\Observer $observer) {
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 
-     /** Reset all the sessions first */
+    /** Reset all the sessions first */
+    $this->_checkoutSession->setData('_rc_plate_name_line1', false);
+    $this->_checkoutSession->setData('_rc_plate_name_line2', false);
+    $this->_checkoutSession->setData('_rc_tea_name_line1', false);
+    $this->_checkoutSession->setData('_rc_tea_name_line2', false);
+
     $this->_checkoutSession->setData('_show_tea_checkout_form', false);
     $this->_checkoutSession->setData('_show_yearplate_checkout_form', false);
 

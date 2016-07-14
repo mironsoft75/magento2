@@ -6,4 +6,7 @@
      <event name="sales_quote_remove_item">
         <observer name="royalcopenhagen_namecustom_quote_update_observer" instance="RoyalCopenhagen\Namecustom\Model\Observer\GetQuoteUpdate" />
     </event>
+    <event name="multishipping_checkout_address_submit_complete">
+        <observer name="royalcopenhagen_namecustom_after_submit_observer" instance="RoyalCopenhagen\Namecustom\Model\Observer\AfterSubmit" />
+    </event>
 </config>
