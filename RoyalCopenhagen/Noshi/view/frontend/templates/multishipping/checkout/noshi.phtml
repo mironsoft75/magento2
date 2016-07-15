@@ -33,8 +33,8 @@
     <div class="wrap_subject"><?php echo __('慶弔') ?></div>
     <div class="wrap_content">
       <select name="purpose" id="purpose">
-        <?php foreach($block->getCongratsCondolenceOption() as $key => $purpose): ?>
-          <option value="<?php echo $key; ?>"><?php echo $purpose ?></option>
+        <?php foreach($block->getPurposeOption() as $key => $purpose): ?>
+          <option value="<?php echo $key; ?>"><?php echo $purpose; ?></option>
         <?php endforeach; ?>
       </select>
     </div>
@@ -44,8 +44,9 @@
     <div class="wrap_subject"><?php echo __('のし・リボン') ?></div>
     <div class="wrap_content">
       <select name="ribbon">
-        <option value="A"><?php echo __('A') ?></option>
-        <option value="B"><?php echo __('B') ?></option>
+        <?php foreach($block->getCongratulationsOption() as $key => $congratulations): ?>
+          <option value="<?php echo $key; ?>"><?php echo $congratulations; ?></option>
+        <?php endforeach; ?>
       </select>
     </div>
   </div>
@@ -54,8 +55,9 @@
     <div class="wrap_subject"><?php echo __('のし用途') ?></div>
     <div class="wrap_content">
       <select name="use">
-        <option value="A"><?php echo __('A') ?></option>
-        <option value="B"><?php echo __('B') ?></option>
+        <?php foreach($block->getNoshiCelebrationOption() as $key => $noshi): ?>
+          <option value="<?php echo $key; ?>"><?php echo $noshi; ?></option>
+        <?php endforeach; ?>
       </select>
     </div>
   </div>
@@ -64,8 +66,9 @@
     <div class="wrap_subject"><?php echo __('のし表書') ?></div>
     <div class="wrap_content">
       <select name="inscription">
-        <option value="A"><?php echo __('A') ?></option>
-        <option value="B"><?php echo __('B') ?></option>
+         <?php foreach($block->getBabygiftInscriptionOption() as $key => $inscription): ?>
+          <option value="<?php echo $key; ?>"><?php echo $inscription; ?></option>
+        <?php endforeach; ?>
       </select>
     </div>
   </div>
@@ -171,3 +174,4 @@
     </ul>
   </div>
 </div>
+<!-- end noshi -->
