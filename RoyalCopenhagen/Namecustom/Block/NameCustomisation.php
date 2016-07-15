@@ -4,7 +4,7 @@ namespace RoyalCopenhagen\Namecustom\Block;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Psr\Log\LoggerInterface as Logger;
 /**
-* ProductListing block
+* NameCustomisation block
 */
 class NameCustomisation extends \Magento\Framework\View\Element\Template
 {

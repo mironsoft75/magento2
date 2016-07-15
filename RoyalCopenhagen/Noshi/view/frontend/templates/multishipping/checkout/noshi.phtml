@@ -1,0 +1,182 @@
+<?php
+
+// @codingStandardsIgnoreFile
+/**
+ * Ship to multiple address template
+ *
+ * @var $block \Magento\Multishipping\Block\Checkout\Addresses
+ */
+?>
+
+<!-- start noshi -->
+<div class="general_subtitle">
+  <div class="tips_icon">Gift</div>
+  <div><?php echo __('のアイコンが表示されている商品にのみ、包装形態が下記より選択できます。') ?></div>
+</div>
+
+<div class="checkout_title1 gift_icon">
+  <?php echo __('包装紙・のし・ショッピングバッグ') ?>
+</div>
+
+<div class="wrapping_table">
+  <div class="wrap_row">
+    <div class="wrap_subject"><span style="color:red;">*</span><?php echo __('包装有無') ?></div>
+    <div class="wrap_content">
+      <input type="radio" name="wrapping" value="true" id="noshi_require_package_yes">
+      <label for="noshi_require_package_yes"><?php echo __('有') ?></label>
+      <input type="radio" name="wrapping" value="false" id="noshi_require_package_no">
+      <label for="noshi_require_package_no"><?php echo __('無') ?></label>
+    </div>
+  </div>
+
+  <div class="wrap_row">
+    <div class="wrap_subject"><?php echo __('慶弔') ?></div>
+    <div class="wrap_content">
+      <select name="purpose" id="purpose">
+        <?php foreach($block->getCongratsCondolenceOption() as $key => $purpose): ?>
+          <option value="<?php echo $key; ?>"><?php echo $purpose ?></option>
+        <?php endforeach; ?>
+      </select>
+    </div>
+  </div>
+
+  <div class="wrap_row">
+    <div class="wrap_subject"><?php echo __('のし・リボン') ?></div>
+    <div class="wrap_content">
+      <select name="ribbon">
+        <option value="A"><?php echo __('A') ?></option>
+        <option value="B"><?php echo __('B') ?></option>
+      </select>
+    </div>
+  </div>
+
+  <div class="wrap_row">
+    <div class="wrap_subject"><?php echo __('のし用途') ?></div>
+    <div class="wrap_content">
+      <select name="use">
+        <option value="A"><?php echo __('A') ?></option>
+        <option value="B"><?php echo __('B') ?></option>
+      </select>
+    </div>
+  </div>
+
+  <div class="wrap_row">
+    <div class="wrap_subject"><?php echo __('のし表書') ?></div>
+    <div class="wrap_content">
+      <select name="inscription">
+        <option value="A"><?php echo __('A') ?></option>
+        <option value="B"><?php echo __('B') ?></option>
+      </select>
+    </div>
+  </div>
+
+  <div class="wrap_row reciver_name_row">
+    <div class="wrap_subject"><?php echo __('のし名入れ') ?></div>
+    <div class="wrap_content">
+      <div class="wrap_content_left">
+        <div class="reciver">
+          <input type="radio" name="reciver" value="true" id="wrap_input3">
+          <label for="wrap_input3"><?php echo __('有') ?></label>
+          <input type="radio" name="reciver" value="false" id="wrap_input4">
+          <label for="wrap_input4"><?php echo __('無') ?></label>
+        </div>
+
+        <div class="name_field">
+          <label for="reciver_name1"><?php echo __('お名前1') ?></label>
+          <input type="text" name="reciver_name1" id="reciver_name1">
+        </div>
+        <div class="name_field">
+          <label for="reciver_name2"><?php echo __('お名前2') ?></label>
+          <input type="text" name="reciver_name2" id="reciver_name2">
+        </div>
+
+        <div class="red_alert"><?php echo __('5文字まで（スペース含む）') ?></div>
+
+        <div class="text_exmaple">
+          <div class="attention"><?php echo __('* xxxxxxxxxxxx') ?></div>
+          <div class="text_indent_left"><?php echo __('例)') ?></div>
+          <div class="text_showing">
+            <div class="text_group">
+              <div class="cross"><?php echo __('例') ?></div>
+              <div class="right-arrow"></div>
+              <div class="circle"><?php echo __('例') ?></div>
+            </div>
+            <div class="text_group">
+              <div class="cross"><?php echo __('例') ?></div>
+              <div class="right-arrow"></div>
+              <div class="circle"><?php echo __('例') ?></div>
+            </div>
+            <div class="text_group">
+              <div class="cross"><?php echo __('例') ?></div>
+              <div class="right-arrow"></div>
+              <div class="circle"><?php echo __('例') ?></div>
+            </div>
+            <div class="text_group">
+              <div class="cross"><?php echo __('例') ?></div>
+              <div class="right-arrow"></div>
+              <div class="circle"><?php echo __('例') ?></div>
+            </div>
+            <div class="text_group">
+              <div class="cross"><?php echo __('例') ?></div>
+              <div class="right-arrow"></div>
+              <div class="circle"><?php echo __('例') ?></div>
+            </div>
+          </div>
+
+          <div class="attention">
+            <?php echo __('xxxxxxxxxx') ?> <br />
+            <?php echo __('xxxxxxxxxx') ?>
+          </div>
+
+          <div class="text_indent_left"><?php echo __('例)') ?></div>
+          <div class="text_showing">
+            <div class="text_group">
+              <div><?php echo __('例') ?></div>
+              <div class="right-arrow"></div>
+              <div><?php echo __('例') ?></div>
+            </div>
+            <div><?php echo __('(sdhgfsdhfhdsfdf)') ?></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="wrap_content_right">
+        <img src="" />
+        <div class="red"><?php echo __('※氏名2の入力がない場合は、') ?> <br /> <?php echo __('氏名１が中央となります') ?></div>
+
+        <input type="button" title="<?php echo __('のしプレビュー') ?>" class="action primary" value="<?php echo __('のしプレビュー') ?>" />
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap_row">
+    <div class="wrap_subject"><?php echo __('ショッピングバッグ') ?></div>
+    <div class="wrap_content">
+      <div class="bag">
+        <input type="radio" name="bag" value="true" id="bag1">
+        <label for="bag1"><?php echo __('有') ?></label>
+        <input type="radio" name="bag" value="false" id="bag2">
+        <label for="bag2"><?php echo __('無') ?></label>
+      </div>
+      <div><?php echo __('ショッピングバッグ有をご選択いただいた場合、ショッピングバッグが折れ曲がらぬよう、商品より大きい梱包でお届けする場合がございます。') ?></div>
+    </div>
+  </div>
+
+  <div class="wrap_row_bottom">
+    <div class="red"><?php echo __('※ご注意') ?></div>
+    <ul>
+      <li>ギフト包装不可の商品については、包装紙・のしをおつけすることができません。</li>
+      <li>のし記載に確認が必要な場合はお届けまでにお日にちをいただく場合がございます。</li>
+    </ul>
+  </div>
+</div>
+
+<!-- end noshi -->
+<script type="text/x-magento-init">
+{
+  "*": {
+    "noshiform": {}
+  }
+}
+</script>
