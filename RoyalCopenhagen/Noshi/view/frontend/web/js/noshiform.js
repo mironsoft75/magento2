@@ -1,9 +1,12 @@
-define('js/theme', [
+define([
     'jquery'
 ], function ($) {
     'use strict';
 
-  console.log('noshiform.js is loaded!!');
+  $(document).ready(function() {
+    console.log('noshi Loaded');
+
+  });
 
 
 });
