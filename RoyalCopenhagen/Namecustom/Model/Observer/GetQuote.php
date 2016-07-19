@@ -36,7 +36,10 @@ class GetQuote implements ObserverInterface {
     $cartData = $this->_checkoutSession->getQuote()->getAllVisibleItems();
 
     foreach ($cartData as $item){
-      $product = $objectManager->create('Magento\Catalog\Model\Product')->load($item->getProductId());
+      //$product = $objectManager->create('Magento\Catalog\Model\Product')->load($item->getProductId());
+      $product = $observer->getEvent()->getProduct();
+      $this->logger->info('checkout_cart_add_product_complete :: '.$product->getSku());
+
       $is_name_customisable = $product->getRcNameCustomization();
 
       if($is_name_customisable == true) {
@@ -44,7 +47,6 @@ class GetQuote implements ObserverInterface {
 
         if( $customisable_type == 92 ) { //tea_type
            $this->_checkoutSession->setData('_show_tea_checkout_form', true);
-           #$this->logger->info('checkout_cart_add_product_complete :: _show_tea_checkout_form: TRUE');
 
          }
          if( $customisable_type == 91 ) { // year_plate
