@@ -24,9 +24,9 @@ class NoshiForm extends \Magento\Framework\View\Element\Template
     parent::__construct($context);
     $this->logger = $logger;
     $this->checkoutSession = $checkoutSession;
-    $this->purpose_option = array(1 => __('Celebration'), 2 => __('Buddhist Memorial Service'));
-    $this->congratulations_option = array(1 => __('Works'), 2 => __('No Works'), 3 => __('Ribbon Packing'));
-    $this->noshi_celebration_option = array(1 => __('Greetings'), 2 => __('Marriage'), 3 => __('Baby Gift'), 4 => __('Disease recovery'), 5 => __('Celebration'));
+    $this->purpose_option = array('celebration' => __('Celebration'), 'buddhist memorial' => __('Buddhist Memorial Service'));
+    $this->congratulations_option = array('' => __('Please Select'), 'works' => __('Works'), 'no works' => __('No Works'), 'ribbon' => __('Ribbon Packing'));
+    $this->noshi_celebration_option = array('greetings' => __('Greetings'), 'marriage' => __('Marriage'), 'baby gift' => __('Baby Gift'), 'disease recovery' => __('Disease recovery'), 'celebration' => __('Celebration'));
     $this->noshi_celebration_babygift_inscription_option = array(1 => __('Holidays'), 2 => __('Family Celebration'));
 
   }

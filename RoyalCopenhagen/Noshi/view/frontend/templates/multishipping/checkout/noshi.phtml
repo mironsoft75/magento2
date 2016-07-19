@@ -18,13 +18,13 @@
   <?php echo __('包装紙・のし・ショッピングバッグ') ?>
 </div>
 
-<div class="wrapping_table">
+<div class="wrapping_table noshi-form-table">
   <div class="wrap_row">
     <div class="wrap_subject"><span style="color:red;">*</span><?php echo __('包装有無') ?></div>
     <div class="wrap_content">
-      <input type="radio" name="wrapping" value="true" id="noshi_require_package_yes">
+      <input type="radio" name="noshi_require" value="true" id="noshi_require_package_yes">
       <label for="noshi_require_package_yes"><?php echo __('有') ?></label>
-      <input type="radio" name="wrapping" value="false" id="noshi_require_package_no">
+      <input type="radio" name="noshi_require" value="false" id="noshi_require_package_no" checked="checked">
       <label for="noshi_require_package_no"><?php echo __('無') ?></label>
     </div>
   </div>
@@ -32,7 +32,7 @@
   <div class="wrap_row">
     <div class="wrap_subject"><?php echo __('慶弔') ?></div>
     <div class="wrap_content">
-      <select name="purpose" id="purpose">
+      <select name="purpose" id="purpose" disabled>
         <?php foreach($block->getPurposeOption() as $key => $purpose): ?>
           <option value="<?php echo $key; ?>"><?php echo $purpose; ?></option>
         <?php endforeach; ?>
@@ -43,9 +43,9 @@
   <div class="wrap_row">
     <div class="wrap_subject"><?php echo __('のし・リボン') ?></div>
     <div class="wrap_content">
-      <select name="ribbon">
-        <?php foreach($block->getCongratulationsOption() as $key => $congratulations): ?>
-          <option value="<?php echo $key; ?>"><?php echo $congratulations; ?></option>
+      <select name="ribbon" id="ribbon" disabled>
+        <?php foreach($block->getCongratulationsOption() as $key => $ribbon): ?>
+          <option value="<?php echo $key; ?>"><?php echo $ribbon; ?></option>
         <?php endforeach; ?>
       </select>
     </div>
@@ -54,9 +54,9 @@
   <div class="wrap_row">
     <div class="wrap_subject"><?php echo __('のし用途') ?></div>
     <div class="wrap_content">
-      <select name="use">
-        <?php foreach($block->getNoshiCelebrationOption() as $key => $noshi): ?>
-          <option value="<?php echo $key; ?>"><?php echo $noshi; ?></option>
+      <select name="use" id="use" disabled>
+        <?php foreach($block->getNoshiCelebrationOption() as $key => $use): ?>
+          <option value="<?php echo $key; ?>"><?php echo $use; ?></option>
         <?php endforeach; ?>
       </select>
     </div>
@@ -65,7 +65,7 @@
   <div class="wrap_row">
     <div class="wrap_subject"><?php echo __('のし表書') ?></div>
     <div class="wrap_content">
-      <select name="inscription">
+      <select name="inscription" id="inscription" disabled>
          <?php foreach($block->getBabygiftInscriptionOption() as $key => $inscription): ?>
           <option value="<?php echo $key; ?>"><?php echo $inscription; ?></option>
         <?php endforeach; ?>
@@ -77,10 +77,10 @@
     <div class="wrap_subject"><?php echo __('のし名入れ') ?></div>
     <div class="wrap_content">
       <div class="wrap_content_left">
-        <div class="reciver">
-          <input type="radio" name="reciver" value="true" id="wrap_input3">
+        <div class="work-required">
+          <input type="radio" name="work_required" value="true" id="work_required_yes" disabled>
           <label for="wrap_input3"><?php echo __('有') ?></label>
-          <input type="radio" name="reciver" value="false" id="wrap_input4">
+          <input type="radio" name="work_required" value="false" id="work_required_no" disabled>
           <label for="wrap_input4"><?php echo __('無') ?></label>
         </div>
 
@@ -174,4 +174,5 @@
     </ul>
   </div>
 </div>
+
 <!-- end noshi -->
