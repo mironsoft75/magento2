@@ -7,8 +7,23 @@ namespace RoyalCopenhagen\Catalog\Block;
 class ProductListing
     extends \Magento\Framework\View\Element\Template
 {
-    public function getTitle()
-    {
-        return "RoyalCopenhagen Catalog Block";
-    }
+    public function checkProductNew ( \Magento\Catalog\Model\Product $product) {
+      $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+      $newsFromDate = $product->getNewsFromDate();
+      $newsToDate   = $product->getNewsToDate();
+      $localeDate = $objectManager->get('\Magento\Framework\Stdlib\DateTime\TimezoneInterface');
+      $dateTime = $objectManager->get('\Magento\Framework\Stdlib\DateTime');
+
+      if (! $dateTime->isEmptyDate($newsFromDate)) {
+        return $localeDate->isScopeDateInInterval(
+               $product->getStoreId(),
+               $newsFromDate,
+               $newsToDate
+           );
+
+      } else {
+        return false;
+      }
+  }
 }
