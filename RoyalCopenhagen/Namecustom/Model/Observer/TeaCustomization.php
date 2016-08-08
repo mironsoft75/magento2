@@ -6,7 +6,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Psr\Log\LoggerInterface as Logger;
 
-class AfterSubmit implements ObserverInterface {
+class TeaCustomization implements ObserverInterface {
   protected $_logger;
   protected $_checkoutSession;
   protected $_quote;
@@ -42,21 +42,21 @@ class AfterSubmit implements ObserverInterface {
     $request = $observer->getEvent()->getRequest();
     $params = $request->getParams();
     $cart = $observer->getEvent()->getCart();
-        if (($params['plate_name_line'][0] != '')|| ($params['plate_name_line'][1] != '')){
+        if (($params['tea_name_line'][0] != '')|| ($params['tea_name_line'][1] != '')){
 
-          //insert year plate name into session
-          if ($params['plate_name_line'][0] != ''){
-            $_rc_plate_name_line1 = $params['plate_name_line'][0];
+          //insert tea name into session
+          if ($params['tea_name_line'][0] != ''){
+            $_rc_tea_name_line1 = $params['tea_name_line'][0];
           }else{
-            $_rc_plate_name_line1 = '';
+            $_rc_tea_name_line1 = '';
           }
-          if ($params['plate_name_line'][1] != ''){
-          $_rc_plate_name_line2 = $params['plate_name_line'][1];
+          if ($params['tea_name_line'][1] != ''){
+            $_rc_tea_name_line2 = $params['tea_name_line'][1];
           }else{
-            $_rc_plate_name_line2 = '';
+            $_rc_tea_name_line2 = '';
           }
-          $this->_checkoutSession->setData('_rc_plate_name_line1', $_rc_plate_name_line1);
-          $this->_checkoutSession->setData('_rc_plate_name_line2', $_rc_plate_name_line2);
+          $this->_checkoutSession->setData('_rc_tea_name_line1', $_rc_tea_name_line1);
+          $this->_checkoutSession->setData('_rc_tea_name_line2', $_rc_tea_name_line2);
 
           $list = $cart->getItems();
           foreach ($list as $_item){
@@ -77,10 +77,10 @@ class AfterSubmit implements ObserverInterface {
               $list = $cart->getItems();
               foreach ($list as $_item){
                   $productObject = $productList[$_item->getProductId()];
-                  if (($productObject->getRcNameCustomization()) && ($productObject->getRcCustomizedProductType() == 91 )){
+                  if (($productObject->getRcNameCustomization()) && ($productObject->getRcCustomizedProductType() == 92 )){
                            $buyRequest = $_item->getOptionByCode('info_buyRequest');
                            $buyRequestArr = unserialize($buyRequest->getValue());
-                           $buyRequestArr['plateNameCustomization'] = $params['plate_name_line'];
+                           $buyRequestArr['teaNameCustomization'] = $params['tea_name_line'];
                            $buyRequest->setValue(serialize($buyRequestArr))->save();
                  };
               }

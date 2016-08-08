@@ -21,12 +21,12 @@
     <div class="wrap_content mark_name">
       <div class="name_field">
         <label for="plate_name_line1"><?php echo __('1行目') ?></label>
-        <input type="text" name="plate_name_line1" id="plate-name-line1" maxlength="18">
+        <input data-validate="{required:true}" type="text" name="plate_name_line[]" id="plate-name-line1" maxlength="18">
         <div><?php echo __('半角英数字1行18文字まで、') ?></div>
       </div>
       <div class="name_field">
         <label for="plate_name_line2"><?php echo __('2行目') ?></label>
-        <input type="text" name="plate_name_line2" id="plate-name-line2" maxlength="24">
+        <input data-validate="{required:true}" type="text" name="plate_name_line[]" id="plate-name-line2" maxlength="24">
         <div><?php echo __('2行の場合は合計24文字まで。') ?></div>
       </div>
       <div class="red"><?php echo __('イヤープレート名入れの例') ?></div>
@@ -39,9 +39,7 @@
     </div>
   </div>
 </div>
-
 <?php elseif($block->showSubmittedNamePlate()): ?>
-
 <br/>
 <div class="checkout_title1">
   <?php echo __('イヤープレート 名入れ') ?>
@@ -78,12 +76,12 @@
     <div class="wrap_content mark_name">
       <div class="name_field">
         <label for="tea_name_line1"><?php echo __('1行目') ?></label>
-        <input type="text" name="tea_name_line1" id="tea-name-line1" maxlength="20">
+        <input data-validate="{required:true}" type="text" name="tea_name_line[]" id="tea-name-line1" maxlength="20">
         <div><?php echo __('半角英数字20文字まで。') ?></div>
       </div>
       <div class="name_field">
         <label for="tea_name_line2"><?php echo __('2行目') ?></label>
-        <input type="text" name="tea_name_line2" id="tea-name-line2" maxlength="16">
+        <input data-validate="{required:true}" type="text" name="tea_name_line[]" id="tea-name-line2" maxlength="16">
         <div><?php echo __('半角英数字16文字まで。') ?></div>
       </div>
       <div class="red"><?php echo __('<ラウンドカンティー・名入れ紅茶の名入れの例>') ?></div>
@@ -98,7 +96,6 @@
 </div>
 
 <?php elseif($block->showSubmittedTeaName()): ?>
-
 <br/>
 <div class="checkout_title1">
   <?php echo __('紅茶 名入れ') ?>
