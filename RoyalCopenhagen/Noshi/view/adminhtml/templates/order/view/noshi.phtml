@@ -1,0 +1,16 @@
+<?php
+    /** @var $block \RoyalCopenhagen\Noshi\Block\Adminhtml\Order\View */
+    /** @var $this \RoyalCopenhagen\Noshi\Block\Adminhtml\Order\View */
+?>
+<section class="admin__page-section royal-view-noshi-gift-wrapping">
+<?php echo __('Royal Noshi - Gift Wrapping'); ?>
+
+    <?php if($block->getRoyalRequiredGiftWrapping()) :
+
+            echo __('Required Gift Wrapping');
+        endif;?>
+    <?php if($block->getRoyalRequiredShoppingBag()):
+            echo __('Required Shopping Bag');
+        endif; ?>
+
+</section>

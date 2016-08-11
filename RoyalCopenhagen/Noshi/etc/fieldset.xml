@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:DataObject/etc/fieldset.xsd">
+    <scope id="global">
+        <fieldset id="sales_convert_quote">
+            <field name="royal_required_gift_wrapping">
+                <aspect name="to_order" />
+            </field>
+            <field name="royal_purpose">
+                <aspect name="to_order" />
+            </field>
+            <field name="royal_type_gift_wrapping">
+                <aspect name="to_order" />
+            </field>
+            <field name="royal_ribbon">
+                <aspect name="to_order" />
+            </field>
+            <field name="royal_noshi_code">
+                <aspect name="to_order" />
+            </field>
+            <field name="royal_noshi_name">
+                <aspect name="to_order" />
+            </field>
+            <field name="royal_noshi_receiver_name_1">
+                <aspect name="to_order" />
+            </field>
+            <field name="royal_noshi_receiver_name_2">
+                <aspect name="to_order" />
+            </field>
+            <field name="royal_required_shopping_bag">
+                <aspect name="to_order" />
+            </field>
+        </fieldset>
+    </scope>
+</config>

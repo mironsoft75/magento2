@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="multishipping_checkout_address_submit_complete">
+        <observer name="assgin_noshidata_quote"
+                  instance="RoyalCopenhagen\Noshi\Observer\AddNoshiDataToQuoteObserver" />
+    </event>
+</config>

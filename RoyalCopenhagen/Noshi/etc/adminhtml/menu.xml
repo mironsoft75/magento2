@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+        <menu>
+            <add id="RoyalCopenhagen_Noshi::noshi" title="Noshi Item" module="RoyalCopenhagen_Noshi" sortOrder="100"
+                 parent="Magento_Backend::other_settings" action="royal_noshi/noshi/index"
+                 dependsOnModule="RoyalCopenhagen_Noshi" resource="RoyalCopenhagen_Noshi::noshi"/>
+        </menu>
+</config>

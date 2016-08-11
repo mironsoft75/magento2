@@ -2,9 +2,10 @@
 
 // @codingStandardsIgnoreFile
 /**
- * Ship to multiple address template
+ * Noshi items template
  *
- * @var $block \Magento\Multishipping\Block\Checkout\Addresses
+ * @var $block \RoyalCopenhagen\Noshi\Block\NoshiForm
+ * @var $this \RoyalCopenhagen\Noshi\Block\NoshiForm
  */
 ?>
 
@@ -22,9 +23,9 @@
   <div class="wrap_row">
     <div class="wrap_subject"><span style="color:red;">*</span><?php echo __('包装有無') ?></div>
     <div class="wrap_content">
-      <input type="radio" name="noshi_require" value="true" id="noshi_require_package_yes">
+      <input type="radio" name="required_gift_wrapping" value="true" />
       <label for="noshi_require_package_yes"><?php echo __('有') ?></label>
-      <input type="radio" name="noshi_require" value="false" id="noshi_require_package_no" checked="checked">
+      <input type="radio" name="required_gift_wrapping" value="false" checked="checked" />
       <label for="noshi_require_package_no"><?php echo __('無') ?></label>
     </div>
   </div>
@@ -33,9 +34,6 @@
     <div class="wrap_subject"><?php echo __('慶弔') ?></div>
     <div class="wrap_content">
       <select name="purpose" id="purpose" disabled>
-        <?php foreach($block->getPurposeOption() as $key => $purpose): ?>
-          <option value="<?php echo $key; ?>"><?php echo $purpose; ?></option>
-        <?php endforeach; ?>
       </select>
     </div>
   </div>
@@ -43,32 +41,30 @@
   <div class="wrap_row">
     <div class="wrap_subject"><?php echo __('のし・リボン') ?></div>
     <div class="wrap_content">
-      <select name="ribbon" id="ribbon" disabled>
-        <?php foreach($block->getCongratulationsOption() as $key => $ribbon): ?>
-          <option value="<?php echo $key; ?>"><?php echo $ribbon; ?></option>
-        <?php endforeach; ?>
+      <select name="type_gift_wrapping" id="ribbon" disabled>
       </select>
     </div>
   </div>
-
+  <?php
+    $noshiItem = $this->toOptionArray();
+    if(!empty($noshiItem)):
+  ?>
   <div class="wrap_row">
     <div class="wrap_subject"><?php echo __('のし用途') ?></div>
     <div class="wrap_content">
-      <select name="use" id="use" disabled>
-        <?php foreach($block->getNoshiCelebrationOption() as $key => $use): ?>
-          <option value="<?php echo $key; ?>"><?php echo $use; ?></option>
+      <select name="noshi[code]" id="noshi-code" disabled>
+        <?php foreach ($noshiItem as $item): ?>
+            <option value="<?php echo $item['value'] ?>"><?php echo $item['label'] ?></option>
         <?php endforeach; ?>
       </select>
     </div>
   </div>
-
+      <input type="hidden" name="noshi[name]" id="noshi-name">
+  <?php endif;?>
   <div class="wrap_row">
     <div class="wrap_subject"><?php echo __('のし表書') ?></div>
     <div class="wrap_content">
       <select name="inscription" id="inscription" disabled>
-         <?php foreach($block->getBabygiftInscriptionOption() as $key => $inscription): ?>
-          <option value="<?php echo $key; ?>"><?php echo $inscription; ?></option>
-        <?php endforeach; ?>
       </select>
     </div>
   </div>
@@ -78,19 +74,19 @@
     <div class="wrap_content">
       <div class="wrap_content_left">
         <div class="work-required">
-          <input type="radio" name="work_required" value="true" id="work_required_yes" disabled>
+          <input type="radio" name="work_required" value="true" disabled />
           <label for="wrap_input3"><?php echo __('有') ?></label>
-          <input type="radio" name="work_required" value="false" id="work_required_no" disabled>
+          <input type="radio" name="work_required" value="false" disabled checked="checked" />
           <label for="wrap_input4"><?php echo __('無') ?></label>
         </div>
 
         <div class="name_field">
           <label for="reciver_name1"><?php echo __('お名前1') ?></label>
-          <input type="text" name="reciver_name1" id="reciver_name1">
+          <input type="text" name="reciver_name1" id="reciver_name1" disabled />
         </div>
         <div class="name_field">
           <label for="reciver_name2"><?php echo __('お名前2') ?></label>
-          <input type="text" name="reciver_name2" id="reciver_name2">
+          <input type="text" name="reciver_name2" id="reciver_name2" disabled />
         </div>
 
         <div class="red_alert"><?php echo __('5文字まで（スペース含む）') ?></div>
@@ -145,10 +141,10 @@
       </div>
 
       <div class="wrap_content_right">
-        <img src="" />
+        <img src="<?php echo $block->getViewFileUrl('RoyalCopenhagen_Noshi::images/img_noshi.gif'); ?>" />
         <div class="red"><?php echo __('※氏名2の入力がない場合は、') ?> <br /> <?php echo __('氏名１が中央となります') ?></div>
 
-        <input type="button" title="<?php echo __('のしプレビュー') ?>" class="action primary" value="<?php echo __('のしプレビュー') ?>" />
+        <input id="preview-button" type="button" title="<?php echo __('のしプレビュー') ?>" class="action primary" value="<?php echo __('のしプレビュー') ?>" disabled />
       </div>
     </div>
   </div>
@@ -157,9 +153,9 @@
     <div class="wrap_subject"><?php echo __('ショッピングバッグ') ?></div>
     <div class="wrap_content">
       <div class="bag">
-        <input type="radio" name="bag" value="true" id="bag1">
+        <input type="radio" name="required_shopping_bag" value="true" disabled />
         <label for="bag1"><?php echo __('有') ?></label>
-        <input type="radio" name="bag" value="false" id="bag2">
+        <input type="radio" name="required_shopping_bag" value="false" disabled checked="checked" />
         <label for="bag2"><?php echo __('無') ?></label>
       </div>
       <div><?php echo __('ショッピングバッグ有をご選択いただいた場合、ショッピングバッグが折れ曲がらぬよう、商品より大きい梱包でお届けする場合がございます。') ?></div>
@@ -174,5 +170,13 @@
     </ul>
   </div>
 </div>
-
 <!-- end noshi -->
+<script type="text/x-magento-init">
+    {
+      "#preview-button" : {
+          "getNoshiItem": {
+            "baseUrl" : "<?php echo $this->getBaseUrl();?>"
+          }
+      }
+    }
+</script>

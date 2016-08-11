@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="royalcopenhagen" translate="label" sortOrder="200">
+            <label>Royal Copenhagen</label>
+        </tab>
+        <section id="noshi" translate="label" type="text" sortOrder="110" showInDefault="1"
+                 showInWebsite="1" showInStore="1">
+            <label>Noshi Config</label>
+            <tab>royalcopenhagen</tab>
+            <resource>RoyalCopenhagen_Noshi::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Enable Module</label>
+                <field id="enabled" translate="label" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable this module</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

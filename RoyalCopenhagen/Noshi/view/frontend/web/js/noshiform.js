@@ -1,112 +1,282 @@
 require([
-    'jquery'
-], function ($) {
+	'jquery',
+	'mage/translate'
+], function ($, $t) {
 
-  $(document).ready(function() {
-    var $purpose = $('select#purpose');
-    var $ribbon = $('select#ribbon');
-    var $use = $('select#use');
-    var $inscription = $('select#inscription');
+	$(document).ready(function() {
+		var $purpose = $('select#purpose');
+		var $ribbon = $('select#ribbon');
+		var $noshiCode = $('select#noshi-code');
+		var $inscription = $('select#inscription');
+		var $workRequired = $('input[name="work_required"]');
+		var $receiver_name = $('#reciver_name1, #reciver_name2');
+		var $bag = $('input[name="bag"]');
 
-    var purposeValues = {
-        "celebration": {
-            "Marriage": "marriage",
-            "Celebration": "celebration",
-            "Baby gifts": "baby gifts",
-            "Greeting": "greeting",
-            "Disease recovery": "disease recovery"
-        },
-        "buddhist memorial": {
-            "Condolence": "condolence"
-        }
-    };
+		var $previewButton = $('#preview-button');
 
-    var inscriptionValues = {
-        "marriage": {
-            "Kotobuki": 'kotobuki',
-            "Family celebration": "family celebration",
-            "Holidays": "holidays"
-        },
-        "celebration": {
-            "Holidays": "holidays",
-            "Family celebration": "family celebration"
-        },
-        "baby gifts": {
-            "Holidays": "holidays",
-            "Family celebration": "family celebration"
-        },
-        "greeting": {
-            "New Year's": "new years",
-            "Hazime Ataru": "hazime ataru",
-            "Year-end gift": "year-end gift",
-            "Thank you gift": "thank you gift",
-            "Light gift": "light gift"
-        },
-        "disease recovery": {
-          "Kaiki family celebration": "kaiki family celebration",
-          "Kaiki congratulation": "kaiki congratulation"
-        },
-        "condolence": {
-          "Zhi": "zhi"
-        }
-    };
+		var PLEASE_SELECT = $t('Please select');
 
-    $('input#noshi_require_package_no').click();
+		var purpose = {
+			"celebration": {
+				text: $t('For Celebration'),
+				ribbon: ['works','ribbon','no works']
+			},
+			"buddhist memorial": {
+				text: $t('For the Buddhist memorial service'),
+				ribbon: ['works','no works']
+			}
+		};
 
-    $('input#noshi_require_package_no').click(function() {
-      if($(this).is(':checked')) {
-        disableField($purpose, true);
-        disableField($ribbon, true);
-      }
-    });
+		var ribbon = {
+			'works': {
+				text: $t('Works'),
+				nextNode: 'noshiCode'
+			},
+			'no works': {
+				text: $t('No Works ribbon'),
+				nextNode: 'bag'
+			},
+			'ribbon': {
+				text: $t('Ribbon packing'),
+				nextNode: 'bag'
+			}
+		};
 
-    $('input#noshi_require_package_yes').click(function() {
-        if($(this).is(':checked')) {
-          disableField($purpose, false);
-          disableField($ribbon, false);
-        }
-    });
+		var purposeValue = {
+			"celebration": {
+				"marriage": $t("Your marriage"),
+				"celebration": $t("Celebration"),
+				"baby gifts": $t("Your baby gifts"),
+				"greetings": $t("Greeting"),
+				"disease recovery": $t("Celebration of the disease recovery")
+			},
+			"buddhist memorial": {
+				"condolence": $t("Each condolence")
+			}
+		};
 
-    $ribbon.change(function() {
+		var inscriptionValue = {
+			"marriage": {
+				'kotobuki': $t("Kotobuki"),
+				"family celebration": $t("Family Celebration"),
+				"holidays": $t("Your holidays")
+			},
+			"celebration": {
+				"holidays": $t("Your holidays"),
+				"family celebration": $t("Family celebration")
+			},
+			"baby gifts": {
+				"holidays": $t("Your holidays"),
+				"family celebration": $t("Family celebration")
+			},
+			"greetings": {
+				"new years": $t("Your New Year's"),
+				"hazime ataru": $t("Hazime Ataru control"),
+				"year-end gift": $t("Year-end gift"),
+				"thank you gift": $t("Thanks"),
+				"souvenir": $t('Souvenir'),
+				"little gift": $t("Little gift")
+			},
+			"disease recovery": {
+				"kaiki family celebration": $t("Kaiki family celebration"),
+				"kaiki congratulation": $t("Kaiki congratulation")
+			},
+			"condolence": {
+				"zhi": $t("Zhi")
+			}
+		};
 
-      if($(this).val() == 'works') {
-        disableField($use, false);
-        disableField($inscription, false);
-      } else {
-        disableField($use, true);
-        disableField($inscription, true);
-      }
-    });
+		$('input[name="required_gift_wrapping"]').change(function()
+		{
+			//$('input[name="noshi_require_package_no"]').prop('checked', false);
+			disableAndResetFields(1);
 
-    $purpose.change(function() {
-        $use.empty().append(function() {
-            var output = '';
+			if (this.value == 'true')
+			{
+				$purpose.append(function()
+				{
+					var _str = getOptionHtml(PLEASE_SELECT, '');
 
-            $.each(purposeValues[$purpose.val()], function(key, value) {
-                output += '<option value="' + value + '">' + key + '</option>';
-            });
-            return output;
-        });
-        $use.change();
-    });
+					$.each(purpose, function(key, val)
+					{
+						_str += getOptionHtml(val.text, key);
+					});
 
-    $use.change(function() {
+					return _str;
+				});
 
-        $inscription.empty().append(function() {
-            var output = '';
+				setElementDisabled($purpose, false);
+			}
+		});
 
-            $.each(inscriptionValues[$use.val()], function(key, value) {
-                output += '<option value="' + value + '">' + key + '</option>';
-            });
-            return output;
-        });
-    }).change();
+		$purpose.change(function()
+		{
+			disableAndResetFields(2);
 
-  });
+			var _val = this.value;
 
-  function disableField(elem, param) {
-      elem.prop('disabled', param);
-   };
+			if (_val != '')
+			{
+				$ribbon.append(function()
+				{
+					var _str = getOptionHtml(PLEASE_SELECT, '');
+
+					if (purpose[_val].ribbon)
+					{
+						var _array = purpose[_val].ribbon;
+
+						for (var i=0; i<_array.length; i++)
+						{
+							_str += getOptionHtml(ribbon[_array[i]].text, _array[i]);
+						}
+					}
+
+					return _str;
+				});
+
+				setElementDisabled($ribbon, false);
+			}
+		});
 
 
+		$ribbon.change(function()
+		{
+			disableAndResetFields(3);
+
+			if (ribbon[this.value] && ribbon[this.value].nextNode)
+			{
+				if (ribbon[this.value].nextNode == 'noshiCode')
+				{
+					$noshiCode.append(function()
+					{
+						var _str = getOptionHtml(PLEASE_SELECT, '');
+
+						if (purposeValue[$purpose.val()])
+						{
+							$.each(purposeValue[$purpose.val()], function(key, val)
+							{
+								_str += getOptionHtml(val, key);
+							});
+						}
+
+						return _str;
+					});
+
+					setElementDisabled($noshiCode, false);
+				}
+				else
+				{
+					setElementDisabled($bag, false);
+				}
+			}
+		});
+
+		$noshiCode.change(function()
+		{
+			disableAndResetFields(4);
+
+			var _val = inscriptionValue[this.value];
+
+			if (_val)
+			{
+				$inscription.append(function()
+				{
+					var _str = getOptionHtml(PLEASE_SELECT, '');
+
+					$.each(_val, function(key, val)
+					{
+						_str += getOptionHtml(val, key);
+					});
+
+					return _str;
+				});
+
+				setElementDisabled($inscription, false);
+			}
+		});
+
+		$inscription.change(function()
+		{
+			disableAndResetFields(5);
+
+			if (this.value != '')
+			{
+				setElementDisabled($workRequired, false);
+				setElementDisabled($bag, false);
+				setElementDisabled($previewButton, false);
+			}
+		});
+
+		$workRequired.change(function()
+		{
+			disableAndResetFields(6);
+
+			if (this.value == 'true')
+			{
+				setElementDisabled($receiver_name, false);
+			}
+		});
+
+		function setElementDisabled(elem, bool)
+		{
+			elem.prop('disabled', bool);
+		};
+
+		function getOptionHtml(text, val)
+		{
+			return '<option value="' + val + '">' + text + '</option>';
+		}
+
+		function disableAndResetFields(level)
+		{
+			switch(level)
+			{
+				case 1:
+
+					setElementDisabled($purpose, true);
+					$purpose.empty();
+
+				case 2:
+
+					setElementDisabled($ribbon, true);
+					$ribbon.empty();
+
+				case 3:
+
+					setElementDisabled($noshiCode, true);
+					$noshiCode.empty();
+
+				case 4:
+
+					setElementDisabled($inscription, true);
+					$inscription.empty();
+
+				case 5:
+
+					setElementDisabled($workRequired, true);
+					$workRequired.filter('[value="false"]').prop('checked', 'checked');
+
+					setElementDisabled($receiver_name, true);
+					$receiver_name.val('');
+
+					setElementDisabled($bag, true);
+					$bag.filter('[value="false"]').prop('checked', 'checked');
+
+					setElementDisabled($previewButton, true);
+
+					break;
+
+				case 6:
+
+					setElementDisabled($receiver_name, true);
+					$receiver_name.val('');
+
+					break;
+
+				default:
+
+					break;
+			}
+		}
+	});
 });
