@@ -27,6 +27,7 @@ class UserResetPassCommand extends Command
 
     /** @var AccountManagementInterface */
     private $customerAccountManagement;
+    protected $_import_limit = 1;
 
     /**
      * @param AccountManagementInterface $customerAccountManagement
@@ -43,20 +44,20 @@ class UserResetPassCommand extends Command
     /**
      * Name argument
      */
-    const EMAIL_ARGUMENT = 'email';
+    const PATH_ARGUMENT = 'path';
 
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this->setName('user:resetpass')
+        $this->setName('royal:user:resetpass')
             ->setDescription('User reset password')
             ->setDefinition([
                 new InputArgument(
-                    self::EMAIL_ARGUMENT,
-                    InputArgument::OPTIONAL,
-                    'Email'
+                    self::PATH_ARGUMENT,
+                    InputArgument::REQUIRED,
+                    'The path of order CVS file.'
                 ),
             ]);
 
@@ -68,34 +69,80 @@ class UserResetPassCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $email = $input->getArgument(self::EMAIL_ARGUMENT);
-        if (is_null($email)) {
-            throw new \InvalidArgumentException('Argument ' . self::EMAIL_ARGUMENT . ' is missing.');
-        }
-        if (!\Zend_Validate::is($email, 'EmailAddress')) {
-            throw new \InvalidArgumentException('Argument ' . self::EMAIL_ARGUMENT . ' is not valid email.');
-        }
+        //Get the path of order Csv file.
+        $input = $input->getArgument(self::PATH_ARGUMENT);
+        $path = BP . '/' . $input;
+        $time_start = microtime(true);
+        $output->writeln('<info>' . 'Reading list from ' . $path . '</info>');
+        $output->writeln('<info>' . 'Processing ......' . '</info>');
 
-/*
-        $this->customerAccountManagement->initiatePasswordReset(
-            $email,
-            AccountManagement::EMAIL_RESET
-        );
-*/
-           try {
-                $this->customerAccountManagement->initiatePasswordReset(
-                    $email,
-                    AccountManagement::EMAIL_RESET
-                );
-            } catch (NoSuchEntityException $exception) {
-                // Do nothing, we don't want anyone to use this action to determine which email accounts are registered.
-            } catch (SecurityViolationException $exception) {
-                throw new \InvalidArgumentException('Argument ' . self::EMAIL_ARGUMENT . $exception->getMessage());
-            } catch (\Exception $exception) {
-                throw new \InvalidArgumentException('Argument ' . self::EMAIL_ARGUMENT . ' We\'re unable to send the password reset email.' . $exception->getMessage());
+        $this->readCSV($path, $output);
+        $time_end = microtime(true);
+
+        //Check executed time.
+        $time = $time_end - $time_start;
+        $output->writeln('');
+        $output->writeln('<info>' . 'Executed time: ' . $time . '<info>');
+        $output->writeln("<info>Finished</info>");
+
+    }
+
+    /**
+     * Read CSV file
+     *
+     * @param $csvFile
+     * @param $data
+     */
+    protected function readCSV($csvFile, OutputInterface $output)
+    {
+
+        $row = 0;
+        if (($file_handle = fopen($csvFile, 'r')) !== FALSE) {
+            while (($data = fgetcsv($file_handle)) !== FALSE) {
+                $row++;
+                if($row < 2) continue;
+
+                if (!feof($file_handle)) {
+                    if ($data[0] != '') {
+                        $email = $data[0];
+
+                        if (is_null($email)) {
+                             $output->writeln('<error>Argument: ' . $email . ' is missing.</error>');
+                             continue;
+                        }
+                        if (!\Zend_Validate::is($email, 'EmailAddress')) {
+                             $output->writeln('<error>Argument: ' . $email . ' is not valid email.</error>');
+                             continue;
+                        }
+
+                         try {
+                            $this->customerAccountManagement->initiatePasswordReset(
+                                $email,
+                                AccountManagement::EMAIL_RESET
+                            );
+                        } catch (NoSuchEntityException $exception) {
+                            // Do nothing, we don't want anyone to use this action to determine which email accounts are registered.
+                            $output->writeln('<error>No Such email: ' . $email . ' in the system.</error>');
+                            continue;
+                        } catch (SecurityViolationException $exception) {
+                            $output->writeln('<error>Argument ' . self::PATH_ARGUMENT . $exception->getMessage(). ' .</error>');
+                            continue;
+                        } catch (\Exception $exception) {
+                            $output->writeln('<error>Argument ' . self::PATH_ARGUMENT . ' We\'re unable to send the password reset email.' . $exception->getMessage(). ' .</error>');
+                            continue;
+                        }
+
+                        $output->writeln('<info>Reset Email successfully sent to: ' . $email . '.</info>');
+
+                    }
+                }
+
             }
 
+            fclose($file_handle);
+        }
 
-        $output->writeln('<info>We are going to send reset password email to: ' . $email . '!</info>');
+
+
     }
 }
